@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Start DHCPd in the background
+/etc/init.d/dhcp start
+
 set -e
 
 ROOT_PASSWORD=${ROOT_PASSWORD:-password}

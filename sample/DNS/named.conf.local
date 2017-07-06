@@ -1,0 +1,21 @@
+//
+// Do any local configuration here
+// SAMPLE named.conf.local :: Place in /etc/bind/named.cong.local along with your ddns.key in the /etc/bind directory
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+include "/etc/bind/ddns.key";
+
+zone "<example.com>" {
+    type master;
+    file "/var/lib/bind/example.com.hosts";
+    allow-update { key rndc-key; };
+    };
+zone "10.16.172.in-addr.arpa" {
+    type master;
+    file "/var/lib/bind/172.16.10.rev";
+    allow-update { key rndc-key; };
+    };

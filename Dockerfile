@@ -14,6 +14,9 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get -y -f install isc-dhcp-server \
  && rm -rf /var/lib/apt/lists/*
 
+RUN useradd -m -p Password01 -s /bin/bash admin ;\
+echo "admin            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
