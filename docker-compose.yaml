@@ -6,8 +6,6 @@ services:
   dhcpdns: 
     image: "mayankt/dhcpdns"
     restart: always
-    environment:
-      - PASSWORD=Password01
     volumes:
         - /tmp/dhcpdns:/data:rw
     networks:

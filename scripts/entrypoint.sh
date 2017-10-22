@@ -90,9 +90,9 @@ if [[ -z ${1} ]]; then
     create_webmin_data_dir
     echo "Starting webmin..."
     /etc/init.d/webmin start
-    echo "Adding user 'admin' and restarting webmin"
-    add_user
-    echo "Starting dhcpd..."
+    # echo "Adding user 'admin' and restarting webmin"
+    # add_user
+    # echo "Starting dhcpd..."
     dhcpd start &
   fi
 
