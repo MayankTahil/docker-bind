@@ -7,7 +7,7 @@ services:
     image: "mayankt/dhcpdns"
     restart: always
     volumes:
-        - /tmp/dhcpdns:/data:rw
+        - /data/dhcpdns:/data:rw
     networks:
       LAN:
         ipv4_address: "192.168.10.101"

@@ -93,7 +93,7 @@ if [[ -z ${1} ]]; then
     # echo "Adding user 'admin' and restarting webmin"
     # add_user
     # echo "Starting dhcpd..."
-    dhcpd start &
+    /etc/init.d/isc-dhcp-server start
   fi
 
   echo "Starting named..."
