@@ -9,9 +9,11 @@
 zone "home.lab" {
 	type master;
 	file "/var/lib/bind/home.lab.hosts";
+	allow-update { key ddns-key; };
 	};
 	
 zone "10.168.192.in-addr.arpa" {
 	type master;
 	file "/var/lib/bind/192.168.10.rev";
+	allow-update { key ddns-key; };
 	};

@@ -1,4 +1,3 @@
-
 # Getting started
 
 ## Installation
@@ -27,10 +26,10 @@ Within this repository's directory, simply enter:
 docker-compose up -d
 ```
 
-When the container is started the [Webmin](http://www.webmin.com/) service is also started and is accessible from the web browser at http://localhost:10000. Login to Webmin with the username `admin` and password `{Specified in docker-composed.yaml}`.
+When the container is started the [Webmin](http://www.webmin.com/) service is also started and is accessible from the web browser at **http://<`container-ip`>:10000**. Login to Webmin with the username `admin` and password `Password01`.
 
 The launch of Webmin can be inserting an argument within the `docker-compose.yaml` file by adding `--env WEBMIN_ENABLED=false`.
 
 ## Persistence
 
-This is built into the `docker-compose.yaml` file as specified by the volume mounds (1: Webmin 2: dhcp 3:bind).
+This is built into the `docker-compose.yaml` file as specified by the volume mount for `/data`.
