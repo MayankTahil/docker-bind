@@ -1,5 +1,5 @@
 FROM sameersbn/ubuntu:14.04.20170123
-MAINTAINER sameer@damagehead.com
+MAINTAINER @mayanktahil github
 
 ENV BIND_USER=bind \
     BIND_VERSION=1:9.9.5 \
@@ -14,13 +14,12 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get -y -f install isc-dhcp-server \
  && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m -p Password01 -s /bin/bash admin ;\
-echo "admin            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN useradd -m -s /bin/bash admin
 
-COPY entrypoint.sh /sbin/entrypoint.sh
-RUN chmod 755 /sbin/entrypoint.sh
+ADD ./scripts/* /sbin/
+RUN chmod 755 /sbin/entrypoint.sh ; chmod +x /sbin/add-user.sh
 
-EXPOSE 53/udp 53/tcp 10000/tcp
+EXPOSE 53/udp 53/tcp 67/udp 68/udp 10000/tcp 
 VOLUME ["${DATA_DIR}"]
 ENTRYPOINT ["/sbin/entrypoint.sh"]
 CMD ["/usr/sbin/named"]

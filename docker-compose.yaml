@@ -1,0 +1,37 @@
+---
+version: "2"
+services:
+
+  # DNS/DHCP Server
+  dhcpdns: 
+    image: "mayankt/dhcpdns"
+    restart: always
+    environment:
+      - PASSWORD=Password01
+    volumes:
+        - /data/webmin:/data:rw
+        - /data/dhcp:/etc/dhcp:rw
+        - /data/bind:/etc/bind:rw
+    networks:
+      LAN:
+        ipv4_address: "192.168.10.101"
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+      - "67:67/udp"
+      - "68:68/udp"
+      - "10000:10000/tcp"
+    hostname: dhcpdns
+
+# Defined networks
+networks:
+  # define a host-external network (assuming eth0 is the interface you want to share)
+  LAN:
+    driver: macvlan
+    driver_opts:
+      parent: "eth0"
+    ipam:
+      config:
+        - subnet: "192.168.10.0/23"
+          gateway: "192.168.10.1"
+          ip_range: "192.168.10.10/28" # IP from this pool are assigned automatically
