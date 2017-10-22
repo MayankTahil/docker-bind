@@ -28,7 +28,7 @@ else
 echo "$USER is not existant in $passwd_file or some kind of fatal error occured!";
 fi
 
-if [ "$password" != "" ]; then
+if [ "$PASSWORD" != "" ]; then
 $change_pass_loc $webmin_etc_path $USER $PASSWORD;
 fi
 

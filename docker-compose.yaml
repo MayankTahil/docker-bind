@@ -9,9 +9,7 @@ services:
     environment:
       - PASSWORD=Password01
     volumes:
-        - /data/webmin:/data:rw
-        - /data/dhcp:/etc/dhcp:rw
-        - /data/bind:/etc/bind:rw
+        - /tmp/dhcpdns:/data:rw
     networks:
       LAN:
         ipv4_address: "192.168.10.101"

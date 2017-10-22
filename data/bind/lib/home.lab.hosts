@@ -1,0 +1,9 @@
+$ttl 38400
+home.lab.	IN	SOA	dns. postmaster.home.lab. (
+			1508696895
+			10800
+			3600
+			604800
+			38400 )
+home.lab.	IN	NS	dns.
+ping.home.lab.	IN	A	192.168.10.1

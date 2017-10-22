@@ -1,0 +1,8 @@
+$ttl 38400
+10.168.192.in-addr.arpa.	IN	SOA	dns. postmaster.home.lab. (
+			1508697007
+			10800
+			3600
+			604800
+			38400 )
+10.168.192.in-addr.arpa.	IN	NS	dns.

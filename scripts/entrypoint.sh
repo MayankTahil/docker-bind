@@ -1,15 +1,19 @@
 #!/bin/bash
-
-# Start DHCPd in the background
-dhcpd start
-
 set -e
 
-ROOT_PASSWORD=${ROOT_PASSWORD:-password}
 WEBMIN_ENABLED=${WEBMIN_ENABLED:-true}
 
 BIND_DATA_DIR=${DATA_DIR}/bind
 WEBMIN_DATA_DIR=${DATA_DIR}/webmin
+DHCP_DATA_DIR=$DATA_DIR/dhcp
+
+add_user()
+  if sudo cat /data/webmin/etc/webmin.acl | grep -xqFe "admin"
+  then
+    echo "admin user already exists."
+  else
+    bash /sbin/add-user.sh
+  fi
 
 create_bind_data_dir() {
   mkdir -p ${BIND_DATA_DIR}
@@ -31,6 +35,18 @@ create_bind_data_dir() {
   ln -sf ${BIND_DATA_DIR}/lib /var/lib/bind
 }
 
+create_dhcp_data_dir() {
+  mkdir -p ${DHCP_DATA_DIR}
+
+  # populate default dhcp configuration if it does not exist
+  if [ ! -d ${DHCP_DATA_DIR} ]; then
+    mv /etc/dhcp ${DHCP_DATA_DIR}/
+  fi
+  rm -rf /etc/dhcp
+  ln -sf ${DHCP_DATA_DIR} /etc/dhcp
+  chmod -R 0775 ${DHCP_DATA_DIR}
+}
+
 create_webmin_data_dir() {
   mkdir -p ${WEBMIN_DATA_DIR}
   chmod -R 0755 ${WEBMIN_DATA_DIR}
@@ -42,10 +58,6 @@ create_webmin_data_dir() {
   fi
   rm -rf /etc/webmin
   ln -sf ${WEBMIN_DATA_DIR}/etc /etc/webmin
-}
-
-set_root_passwd() {
-  echo "root:$ROOT_PASSWORD" | chpasswd
 }
 
 create_pid_dir() {
@@ -61,6 +73,7 @@ create_bind_cache_dir() {
 create_pid_dir
 create_bind_data_dir
 create_bind_cache_dir
+create_dhcp_data_dir
 
 # allow arguments to be passed to named
 if [[ ${1:0:1} = '-' ]]; then
@@ -75,11 +88,12 @@ fi
 if [[ -z ${1} ]]; then
   if [ "${WEBMIN_ENABLED}" == "true" ]; then
     create_webmin_data_dir
-    set_root_passwd
-  # Add desired 'admin' user
-    /sbin/add-user.sh
     echo "Starting webmin..."
     /etc/init.d/webmin start
+    echo "Adding user 'admin' and restarting webmin"
+    add_user
+    echo "Starting dhcpd..."
+    dhcpd start &
   fi
 
   echo "Starting named..."
