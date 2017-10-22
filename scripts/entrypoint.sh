@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Add desired 'admin' user
-/sbin/add-user.sh
-
 # Start DHCPd in the background
 dhcpd start
 
@@ -79,6 +76,8 @@ if [[ -z ${1} ]]; then
   if [ "${WEBMIN_ENABLED}" == "true" ]; then
     create_webmin_data_dir
     set_root_passwd
+  # Add desired 'admin' user
+    /sbin/add-user.sh
     echo "Starting webmin..."
     /etc/init.d/webmin start
   fi
